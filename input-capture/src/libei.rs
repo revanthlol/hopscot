@@ -197,7 +197,7 @@ fn get_token_file_path() -> PathBuf {
             PathBuf::from(home).join(".cache")
         });
 
-    cache_dir.join("lan-mouse").join("input-capture.token")
+    cache_dir.join("hopscot").join("input-capture.token")
 }
 
 /// Read the InputCapture token from file
