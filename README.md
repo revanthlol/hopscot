@@ -1,10 +1,14 @@
-# Lan Mouse
+# Hopscot
+
+Cross-platform software KVM for KDE Plasma and Windows, based on lan-mouse.
+
+The badges below describe the upstream project.
 
 [![CI](https://github.com/feschber/lan-mouse/actions/workflows/rust.yml/badge.svg)](https://github.com/feschber/lan-mouse/actions/workflows/rust.yml) [![Cachix](https://github.com/feschber/lan-mouse/actions/workflows/cachix.yml/badge.svg)](https://github.com/feschber/lan-mouse/actions/workflows/cachix.yml) [![Release](https://github.com/feschber/lan-mouse/actions/workflows/release.yml/badge.svg)](https://github.com/feschber/lan-mouse/actions/workflows/release.yml)
 
 [![crates.io](https://img.shields.io/crates/v/lan-mouse.svg)](https://crates.io/crates/lan-mouse)  [![license](https://img.shields.io/crates/l/lan-mouse.svg)](https://github.com/feschber/lan-mouse/blob/main/Cargo.toml)
 
-Lan Mouse is a *cross-platform* mouse and keyboard sharing software similar to universal-control on Apple devices.
+Hopscot is a *cross-platform* mouse and keyboard sharing software similar to universal-control on Apple devices.
 It allows for using multiple PCs via a single set of mouse and keyboard.
 This is also known as a Software KVM switch.
 
@@ -20,16 +24,19 @@ Focus lies on performance, ease of use and a maintainable implementation that ca
 <picture>
     <source media="(prefers-color-scheme: dark)" srcset="/screenshots/dark.png?raw=true">
     <source media="(prefers-color-scheme: light)" srcset="/screenshots/light.png?raw=true">
-    <img alt="Screenshot of Lan-Mouse" srcset="/screenshots/dark.png">
+    <img alt="Screenshot of the upstream lan-mouse interface" srcset="/screenshots/dark.png">
 </picture>
 
 
 ## Encryption
 
-Lan Mouse encrypts all network traffic using the DTLS implementation provided by [WebRTC.rs](https://github.com/webrtc-rs/webrtc).
+Hopscot encrypts all network traffic using the DTLS implementation provided by [WebRTC.rs](https://github.com/webrtc-rs/webrtc).
 There are currently no mitigations in place for timing side-channel attacks.
 
 ## OS Support
+
+The support information below is inherited from upstream. Hopscot hardware
+verification on KDE Plasma, Windows 11 and Windows 10 is pending.
 
 Most current desktop environments and operating systems are fully supported, this includes
 - GNOME >= 45
@@ -58,9 +65,13 @@ For more detailed information about os support see [Detailed OS Support](#detail
 ### Android & IOS
 
 A proof of concept for an Android / IOS Application by [rohitsangwan01](https://github.com/rohitsangwan01) can be found [here](https://github.com/rohitsangwan01/lan-mouse-mobile).
-It can be used as a remote control for any device supported by Lan Mouse.
+It can be used as a remote control for any device supported by Hopscot.
 
 ## Installation
+
+Distribution packages and upstream releases listed below install **lan-mouse**,
+not Hopscot. Build Hopscot from this checkout using the KDE commands below.
+Hopscot release artifacts will use the `hopscot-*` names when published.
 
 <details>
     <summary>Arch Linux</summary>
@@ -103,9 +114,9 @@ dnf install lan-mouse
 
 - Download the package for your Mac (Intel or ARM) from the releases page
 - Unzip it
-- Remove the quarantine with `xattr -rd com.apple.quarantine "Lan Mouse.app"`
+- Remove the quarantine with `xattr -rd com.apple.quarantine "Hopscot.app"`
 - Launch the app
-- Use the menu bar item to open the settings window or quit Lan Mouse. Bundled macOS builds run as a menu bar app and do not keep a Dock icon visible.
+- Use the menu bar item to open the settings window or quit Hopscot. Bundled macOS builds run as a menu bar app and do not keep a Dock icon visible.
 - Grant accessibility permissions in System Preferences
 
 </details>
@@ -129,48 +140,50 @@ First make sure to [install the necessary dependencies](#installing-dependencies
 Precompiled release binaries for Windows, MacOS and Linux are available in the [releases section](https://github.com/feschber/lan-mouse/releases).
 For Windows, the depenedencies are included in the .zip file, for other operating systems see [Installing Dependencies](#installing-dependencies-for-development--compiling-from-source).
 
-Alternatively, the `lan-mouse` binary can be compiled from source (see below).
+Alternatively, the `hopscot` binary can be compiled from source (see below).
 
 ### Installing desktop file, app icon and firewall rules (optional)
 ```sh
-# install lan-mouse (replace path/to/ with the correct path)
-sudo cp path/to/lan-mouse /usr/local/bin/
+# install hopscot (replace path/to/ with the correct path)
+sudo cp path/to/hopscot /usr/local/bin/
 
 # install app icon
 sudo mkdir -p /usr/local/share/icons/hicolor/scalable/apps
-sudo cp lan-mouse-gtk/resources/de.feschber.LanMouse.svg /usr/local/share/icons/hicolor/scalable/apps
+sudo cp lan-mouse-gtk/resources/io.github.revanthlol.Hopscot.svg /usr/local/share/icons/hicolor/scalable/apps
 
 # update icon cache
 gtk-update-icon-cache /usr/local/share/icons/hicolor/
 
 # install desktop entry
 sudo mkdir -p /usr/local/share/applications
-sudo cp de.feschber.LanMouse.desktop /usr/local/share/applications
+sudo cp io.github.revanthlol.Hopscot.desktop /usr/local/share/applications
 
 # when using firewalld: install firewall rule
 sudo cp firewall/lan-mouse.xml /etc/firewalld/services
 # -> enable the service in firewalld settings
 ```
 
-Instead of downloading from the releases, the `lan-mouse` binary
+Instead of downloading from the releases, the `hopscot` binary
 can be easily compiled via cargo or nix:
 
 ### Compiling and installing manually:
 ```sh
 # compile in release mode
-cargo build --release
+cargo build --release --locked --no-default-features \
+  --features gtk,libei_capture,libei_emulation,rdp_emulation
 
-# install lan-mouse
-sudo cp target/release/lan-mouse /usr/local/bin/
+# install hopscot
+sudo cp target/release/hopscot /usr/local/bin/
 ```
 
 ### Compiling and installing via cargo:
 ```sh
 # will end up in ~/.cargo/bin
-cargo install lan-mouse
+cargo install --path . --locked --no-default-features \
+  --features gtk,libei_capture,libei_emulation,rdp_emulation
 ```
 
-### Compiling and installing via nix:
+### Upstream Nix packaging (not adapted for Hopscot):
 ```sh
 # you can find the executable in result/bin/lan-mouse
 nix-build
@@ -315,7 +328,7 @@ the gtk frontend (see conditional compilation).
 <details>
     <summary>Gtk Frontend</summary>
 
-By default the gtk frontend will open when running `lan-mouse`.
+By default the gtk frontend will open when running `hopscot`.
 
 To connect a device you want to control, simply click the `Add` button and enter the hostname
 of the device.
@@ -336,11 +349,11 @@ If the device still can not be entered, make sure you have UDP port `4242` (or t
 The cli interface can be accessed by passing `cli` as a commandline argument.
 Use
 ```sh
-lan-mouse cli help
+hopscot cli help
 ```
  to list the available commands and
 ```sh
-lan-mouse cli <cmd> help
+hopscot cli <cmd> help
 ```
 for information on how to use a specific command.
 
@@ -349,33 +362,51 @@ for information on how to use a specific command.
 <details>
     <summary>Daemon Mode</summary>
 
-Lan Mouse can be launched in daemon mode to keep it running in the background (e.g. for use in a systemd-service).
+Hopscot can be launched in daemon mode to keep it running in the background (e.g. for use in a systemd-service).
 
 To do so, use the `daemon` subcommand:
 
 ```sh
-lan-mouse daemon
+hopscot daemon
 ```
 </details>
 
 ## Systemd Service
 
-In order to start lan-mouse with a graphical session automatically,
-the [systemd-service](service/lan-mouse.service) can be used:
+In order to start hopscot with a graphical session automatically,
+the [systemd-service](service/hopscot.service) can be used:
 
 Copy the file to `~/.config/systemd/user/` and enable the service:
 
 ```sh
-cp service/lan-mouse.service ~/.config/systemd/user
+cp service/hopscot.service ~/.config/systemd/user
 systemctl --user daemon-reload
-systemctl --user enable --now lan-mouse.service
+systemctl --user enable --now hopscot.service
 ```
 > [!Important]
-> Make sure to point `ExecStart=/usr/bin/lan-mouse daemon` to the actual `lan-mouse` binary (in case it is not under `/usr/bin`, e.g. when installed manually.
+> Make sure to point `ExecStart=/usr/bin/hopscot daemon` to the actual `hopscot` binary (in case it is not under `/usr/bin`, e.g. when installed manually.
 
 
 ## Configuration
-To automatically load clients on startup, the file `$XDG_CONFIG_HOME/lan-mouse/config.toml` is parsed.
+The configuration directory is now `~/.config/hopscot` (or `$XDG_CONFIG_HOME/hopscot`).
+Stop both applications first. If the destination does not exist, migrate the whole
+old directory so the certificate and authorized peers are retained:
+
+```sh
+[ ! -e ~/.config/hopscot ] && mv ~/.config/lan-mouse ~/.config/hopscot
+```
+
+The certificate keeps its existing filename inside that directory. Windows uses
+`%LOCALAPPDATA%\hopscot` instead of `%LOCALAPPDATA%\lan-mouse`; move the old
+folder with both apps stopped and no destination folder present.
+Portal tokens now use `$XDG_CACHE_HOME/hopscot` (default `~/.cache/hopscot`).
+The existing remote-desktop token can be moved from the old cache directory;
+otherwise consent may be requested again. PR #515 adds a capture token there too.
+Local IPC socket names and the Windows loopback port remain internal legacy names;
+do not run Hopscot and lan-mouse services simultaneously.
+Debug logging uses `HOPSCOT_LOG_LEVEL=debug`; `HOPSCOT_HIDDEN=1` starts the GUI hidden.
+
+To automatically load clients on startup, the file `$XDG_CONFIG_HOME/hopscot/config.toml` is parsed.
 `$XDG_CONFIG_HOME` defaults to `~/.config/`.
 
 To create this file you can copy the following example config:
@@ -406,7 +437,7 @@ port = 4242
 position = "right"
 # hostname
 hostname = "iridium"
-# activate this client immediately when lan-mouse is started
+# activate this client immediately when hopscot is started
 activate_on_startup = true
 # optional list of (known) ip addresses
 ips = ["192.168.178.156"]
@@ -449,7 +480,7 @@ a supported **input-emulation** *and* **input-capture** backend.
 
 A suitable backend is chosen automatically based on the active desktop environment / compositor.
 
-The following sections detail the emulation and capture backends provided by lan-mouse and their support in desktop environments / operating systems.
+The following sections detail the emulation and capture backends provided by hopscot and their support in desktop environments / operating systems.
 
 ### Input Emulation Support
 
@@ -487,3 +518,20 @@ The following sections detail the emulation and capture backends provided by lan
 - `windows`: Backend for input capture on Windows.
 - `macos`: Backend for input capture on MacOS.
 - `x11`: TODO (not yet supported)
+
+## Attribution
+
+Hopscot is based on **lan-mouse by feschber (GPL-3.0)**:
+https://github.com/feschber/lan-mouse
+
+The existing license is GPL-3.0-or-later; LICENSE, copyright notices, upstream
+contributors, artwork and commit history are preserved. Distribution-package
+instructions and upstream project links above retain their upstream names.
+
+### Changes
+
+- Renamed the application, binary, GTK application ID, directories, desktop/service
+  files and release artifact names to Hopscot; internal workspace crate names remain.
+- Upstream PRs merged: none. PR #515 (capture-token persistence), #516 (SendInput
+  fail-fast) and #533 (outgoing peer authentication) are separate review branches.
+- Further changes will be recorded here after review and hardware testing.

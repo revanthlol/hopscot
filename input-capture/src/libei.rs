@@ -206,7 +206,7 @@ async fn connect_to_eis(
     // create ei context
     let context = ei::Context::new(stream)?;
     let (conn, event_stream) = context
-        .handshake_tokio("de.feschber.LanMouse", ContextType::Receiver)
+        .handshake_tokio("io.github.revanthlol.Hopscot", ContextType::Receiver)
         .await?;
 
     Ok((context, conn, event_stream))

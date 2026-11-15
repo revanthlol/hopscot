@@ -188,7 +188,7 @@ fn relaunch_command_with_opener(opener: &Path, bundle: &Path, read_end: UnixStre
     command
         .arg("-c")
         .arg(RELAUNCH_AFTER_EXIT_SCRIPT)
-        .arg("lan-mouse-relaunch")
+        .arg("hopscot-relaunch")
         .arg(opener)
         .arg(bundle)
         .stdin(Stdio::from(read_end))
@@ -248,7 +248,7 @@ fn open_url(url: &str) {
 }
 
 /// One-shot, at GUI startup: if a permission is missing, fire the system
-/// prompt. This is where the familiar first-launch "Lan Mouse.app would
+/// prompt. This is where the familiar first-launch "Hopscot.app would
 /// like to control this computer" alert comes from. Subsequent clicks on
 /// the Reenable button use URL-scheme navigation instead, so we never
 /// double up alerts on retries.
@@ -295,13 +295,13 @@ fn fire_initial_prompts_inner() {
     // from a parent process that already has Input Monitoring, e.g. Terminal,
     // inherit the grant but the bundle is never listed for the user to
     // toggle persistently).
-    log::info!("ensuring Lan Mouse is listed under Input Monitoring");
+    log::info!("ensuring Hopscot is listed under Input Monitoring");
     unsafe {
         ensure_listed_in_input_monitoring();
     }
     // Same for Post Event: now that Accessibility is present, this call is
     // safe — it won't surface the generic Accessibility prompt.
-    log::info!("ensuring Lan Mouse is listed under Accessibility > Post Event");
+    log::info!("ensuring Hopscot is listed under Accessibility > Post Event");
     unsafe {
         CGRequestPostEventAccess();
     }
@@ -319,21 +319,21 @@ mod tests {
 
     #[test]
     fn resolves_only_expected_bundle_layout() {
-        let executable = Path::new("/Applications/Lan Mouse.app/Contents/MacOS/lan-mouse");
+        let executable = Path::new("/Applications/Hopscot.app/Contents/MacOS/hopscot");
         assert_eq!(
             bundle_path(executable).unwrap(),
-            Path::new("/Applications/Lan Mouse.app")
+            Path::new("/Applications/Hopscot.app")
         );
-        assert!(bundle_path(Path::new("/usr/local/bin/lan-mouse")).is_err());
+        assert!(bundle_path(Path::new("/usr/local/bin/hopscot")).is_err());
         assert!(
             bundle_path(Path::new(
-                "/Applications/Lan Mouse.app/Resources/MacOS/lan-mouse"
+                "/Applications/Hopscot.app/Resources/MacOS/hopscot"
             ))
             .is_err()
         );
         assert!(
             bundle_path(Path::new(
-                "/Applications/Lan Mouse/Contents/MacOS/lan-mouse"
+                "/Applications/Hopscot/Contents/MacOS/hopscot"
             ))
             .is_err()
         );
@@ -350,7 +350,7 @@ mod tests {
             [
                 OsStr::new("-c"),
                 OsStr::new(RELAUNCH_AFTER_EXIT_SCRIPT),
-                OsStr::new("lan-mouse-relaunch"),
+                OsStr::new("hopscot-relaunch"),
                 OsStr::new("/usr/bin/open"),
                 bundle.as_os_str(),
             ]
@@ -364,7 +364,7 @@ mod tests {
             .unwrap()
             .as_nanos();
         let directory = std::env::temp_dir().join(format!(
-            "lan-mouse relaunch $`테스트`-{}-{nonce}",
+            "hopscot relaunch $`테스트`-{}-{nonce}",
             std::process::id()
         ));
         fs::create_dir(&directory).unwrap();

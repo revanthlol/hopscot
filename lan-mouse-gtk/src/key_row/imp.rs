@@ -9,7 +9,7 @@ use gtk::{Button, CompositeTemplate, glib};
 use std::sync::OnceLock;
 
 #[derive(CompositeTemplate, Default)]
-#[template(resource = "/de/feschber/LanMouse/key_row.ui")]
+#[template(resource = "/io/github/revanthlol/Hopscot/key_row.ui")]
 pub struct KeyRow {
     #[template_child]
     pub delete_button: TemplateChild<gtk::Button>,

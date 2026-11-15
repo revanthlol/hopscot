@@ -10,7 +10,7 @@ use gtk::{
 };
 
 #[derive(CompositeTemplate, Default)]
-#[template(resource = "/de/feschber/LanMouse/fingerprint_window.ui")]
+#[template(resource = "/io/github/revanthlol/Hopscot/fingerprint_window.ui")]
 pub struct FingerprintWindow {
     #[template_child]
     pub description: TemplateChild<Text>,

@@ -11,7 +11,7 @@
   <template class="LanMouseWindow" parent="AdwApplicationWindow">
     <property name="width-request">600</property>
     <property name="height-request">700</property>
-    <property name="title" translatable="yes">Lan Mouse</property>
+    <property name="title" translatable="yes">Hopscot</property>
     <property name="show-menubar">True</property>
     <property name="content">
       <object class="GtkBox">
@@ -33,9 +33,9 @@
           <object class="AdwToastOverlay" id="toast_overlay">
             <child>
               <object class="AdwStatusPage">
-                <property name="title" translatable="yes">Lan Mouse</property>
+                <property name="title" translatable="yes">Hopscot</property>
                 <property name="description" translatable="yes">easily use your mouse and keyboard on multiple computers</property>
-                <property name="icon-name">de.feschber.LanMouse</property>
+                <property name="icon-name">io.github.revanthlol.Hopscot</property>
                 <property name="child">
                   <object class="AdwClamp">
                   <property name="maximum-size">600</property>

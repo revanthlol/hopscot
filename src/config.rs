@@ -48,14 +48,14 @@ fn default_path() -> Result<PathBuf, VarError> {
     let default_path = {
         let xdg_config_home =
             env::var("XDG_CONFIG_HOME").unwrap_or(format!("{}/.config", env::var("HOME")?));
-        format!("{xdg_config_home}/lan-mouse/")
+        format!("{xdg_config_home}/hopscot/")
     };
 
     #[cfg(not(unix))]
     let default_path = {
         let app_data =
             env::var("LOCALAPPDATA").unwrap_or(format!("{}/.config", env::var("USERPROFILE")?));
-        format!("{app_data}\\lan-mouse\\")
+        format!("{app_data}\\hopscot\\")
     };
     Ok(PathBuf::from(default_path))
 }
@@ -93,7 +93,7 @@ impl ConfigToml {
 #[derive(Parser, Debug)]
 #[command(author, version=build::CLAP_LONG_VERSION, about, long_about = None)]
 struct Args {
-    /// the listen port for lan-mouse
+    /// the listen port for Hopscot
     #[arg(short, long)]
     port: Option<u16>,
 
@@ -124,7 +124,7 @@ pub enum Command {
     TestEmulation(TestEmulationArgs),
     /// test input capture
     TestCapture(TestCaptureArgs),
-    /// Lan Mouse commandline interface
+    /// Hopscot commandline interface
     Cli(CliArgs),
     /// run in daemon mode
     Daemon,

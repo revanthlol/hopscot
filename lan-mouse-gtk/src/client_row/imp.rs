@@ -12,7 +12,7 @@ use std::sync::OnceLock;
 use crate::client_object::ClientObject;
 
 #[derive(CompositeTemplate, Default)]
-#[template(resource = "/de/feschber/LanMouse/client_row.ui")]
+#[template(resource = "/io/github/revanthlol/Hopscot/client_row.ui")]
 pub struct ClientRow {
     #[template_child]
     pub enable_switch: TemplateChild<gtk::Switch>,

@@ -51,7 +51,8 @@ Use development builds while developing; release builds for distribution and ben
    Fingerprint authentication is incoming-only until #533; transport is DTLS over UDP.
 5. systemd user unit for autostart on the laptop.
 6. Failure-test table: stock vs ours (see Testing).
-7. Rename to Hopscot (see Rename). The human authorized preparing this on
+7. Rename prepared on rename-hopscot (done; hardware verification pending).
+   The human authorized preparing this on
    rename-hopscot before items 1-6 are complete; do not merge it into main.
 
 ## Out of scope. Do not start these without asking
@@ -160,8 +161,7 @@ Hopscot-specific scope and commands above take precedence.
 - cargo fmt --check checks formatting without a repository-wide rewrite.
 - cargo clippy --workspace --all-targets --all-features checks lints where platform
   dependencies are installed; report missing dependencies rather than changing them.
-- LAN_MOUSE_LOG_LEVEL=debug cargo run enables logging before the rename;
-  use HOPSCOT_LOG_LEVEL after the rename.
+- HOPSCOT_LOG_LEVEL=debug cargo run enables logging.
 - Add proportional utility/protocol tests for logic changes. Dummy backends can
   exercise limited paths without hardware, not prove OS integration or recovery.
 - Test OS backends on their target machines or report manual checks as skipped.

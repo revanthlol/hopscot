@@ -79,10 +79,10 @@ fn gtk_main() -> glib::ExitCode {
         install_macos_gtk_log_filter();
     }
 
-    gio::resources_register_include!("lan-mouse.gresource").expect("Failed to register resources.");
+    gio::resources_register_include!("hopscot.gresource").expect("Failed to register resources.");
 
     let app = Application::builder()
-        .application_id("de.feschber.LanMouse")
+        .application_id("io.github.revanthlol.Hopscot")
         .build();
 
     app.connect_startup(|app| {
@@ -157,7 +157,7 @@ fn configure_macos_bundle_environment() {
 
 fn load_css() {
     let provider = CssProvider::default();
-    provider.load_from_resource("de/feschber/LanMouse/style.css");
+    provider.load_from_resource("io/github/revanthlol/Hopscot/style.css");
     gtk::style_context_add_provider_for_display(
         &Display::default().expect("Could not connect to a display"),
         &provider,
@@ -168,7 +168,7 @@ fn load_css() {
 fn load_icons() {
     let display = &Display::default().expect("Could not connect to a display.");
     let icon_theme = IconTheme::for_display(display);
-    icon_theme.add_resource_path("/de/feschber/LanMouse/icons");
+    icon_theme.add_resource_path("/io/github/revanthlol/Hopscot/icons");
 }
 
 // Add application actions
@@ -205,7 +205,7 @@ fn build_ui(app: &Application) {
         return;
     }
 
-    log::debug!("connecting to lan-mouse-socket");
+    log::debug!("connecting to Hopscot service");
     let (mut frontend_rx, frontend_tx) = match lan_mouse_ipc::try_connect() {
         Ok(conn) => conn,
         Err(e) => {
@@ -229,7 +229,7 @@ fn build_ui(app: &Application) {
             }
         }
     };
-    log::debug!("connected to lan-mouse-socket");
+    log::debug!("connected to Hopscot service");
 
     let (sender, receiver) = async_channel::bounded(10);
 
@@ -335,12 +335,12 @@ fn build_ui(app: &Application) {
     // On macOS, default to presenting the main window on every launch
     // so the user gets a visible confirmation that the app is running
     // — including the post-grant relaunch and normal Dock/Finder/`open`
-    // launches. Opt out by setting `LAN_MOUSE_HIDDEN=1` in the
+    // launches. Opt out by setting `HOPSCOT_HIDDEN=1` in the
     // environment (useful for a LaunchAgent / login-item configuration
     // where the user wants the app to come up quietly into the menu
     // bar only, with no window on boot).
     #[cfg(target_os = "macos")]
-    if env::var_os("LAN_MOUSE_HIDDEN").is_none() {
+    if env::var_os("HOPSCOT_HIDDEN").is_none() {
         window.present();
     }
 }

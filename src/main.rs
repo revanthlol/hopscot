@@ -1,12 +1,12 @@
 use env_logger::Env;
-use input_capture::InputCaptureError;
-use input_emulation::InputEmulationError;
-use lan_mouse::{
+use hopscot::{
     capture_test,
     config::{self, Command, Config, ConfigError},
     emulation_test,
     service::{Service, ServiceError},
 };
+use input_capture::InputCaptureError;
+use input_emulation::InputEmulationError;
 use lan_mouse_cli::CliError;
 #[cfg(feature = "gtk")]
 use lan_mouse_gtk::GtkError;
@@ -42,7 +42,7 @@ enum LanMouseError {
 
 fn main() {
     // init logging
-    let env = Env::default().filter_or("LAN_MOUSE_LOG_LEVEL", "info");
+    let env = Env::default().filter_or("HOPSCOT_LOG_LEVEL", "info");
     env_logger::init_from_env(env);
 
     if let Err(e) = run() {

@@ -245,7 +245,7 @@ impl Window {
     }
 
     fn setup_icon(&self) {
-        self.set_icon_name(Some("de.feschber.LanMouse"));
+        self.set_icon_name(Some("io.github.revanthlol.Hopscot"));
     }
 
     /// workaround for a bug in libadwaita that shows an ugly line beneath

@@ -29,7 +29,7 @@ jobs:
     - name: Release Build
       run: |
         cargo build --release
-        cp target/release/lan-mouse lan-mouse-linux-x86_64
+        cp target/release/hopscot hopscot-linux-x86_64
     - name: Install cargo bundle
       run: cargo install cargo-bundle
     - name: Bundle
@@ -38,11 +38,11 @@ jobs:
     - name: Upload build artifact
       uses: actions/upload-artifact@v6
       with:
-        name: lan-mouse-linux-x86_64
+        name: hopscot-linux-x86_64
         path: |
-          lan-mouse-linux-x86_64
-          target/release/bundle/deb/lan-mouse_*.deb
-          target/release/bundle/appimage/lan-mouse_*.AppImage
+          hopscot-linux-x86_64
+          target/release/bundle/deb/hopscot_*.deb
+          target/release/bundle/appimage/hopscot_*.AppImage
 
   linux-arm64-release-build:
     runs-on: ubuntu-22.04-arm
@@ -56,7 +56,7 @@ jobs:
     - name: Release Build
       run: |
         cargo build --release
-        cp target/release/lan-mouse lan-mouse-linux-arm64
+        cp target/release/hopscot hopscot-linux-arm64
     - name: Install cargo bundle
       run: cargo install cargo-bundle
     - name: Bundle
@@ -65,11 +65,11 @@ jobs:
     - name: Upload build artifact
       uses: actions/upload-artifact@v6
       with:
-        name: lan-mouse-linux-arm64
+        name: hopscot-linux-arm64
         path: |
-          lan-mouse-linux-arm64
-          target/release/bundle/deb/lan-mouse_*.deb
-          target/release/bundle/appimage/lan-mouse_*.AppImage
+          hopscot-linux-arm64
+          target/release/bundle/deb/hopscot_*.deb
+          target/release/bundle/appimage/hopscot_*.AppImage
 
   windows-release-build:
     runs-on: windows-latest
@@ -113,15 +113,15 @@ jobs:
       run: cargo build --release
     - name: Create Archive
       run: |
-        mkdir "lan-mouse-windows"
-        Get-Childitem -Path "C:\\gtk-build\\gtk\\x64\\release\\bin\\*.dll" -File -Recurse | Copy-Item -Destination "lan-mouse-windows"
-        Copy-Item -Path "target\release\lan-mouse.exe" -Destination "lan-mouse-windows"
-        Compress-Archive -Path "lan-mouse-windows\*" -DestinationPath lan-mouse-windows-x86_64.zip
+        mkdir "hopscot-windows"
+        Get-Childitem -Path "C:\\gtk-build\\gtk\\x64\\release\\bin\\*.dll" -File -Recurse | Copy-Item -Destination "hopscot-windows"
+        Copy-Item -Path "target\release\hopscot.exe" -Destination "hopscot-windows"
+        Compress-Archive -Path "hopscot-windows\*" -DestinationPath hopscot-windows-x86_64.zip
     - name: Upload build artifact
       uses: actions/upload-artifact@v6
       with:
-        name: lan-mouse-windows-x86_64
-        path: lan-mouse-windows-x86_64.zip
+        name: hopscot-windows-x86_64
+        path: hopscot-windows-x86_64.zip
 
   macos-release-build:
     runs-on: macos-15-intel
@@ -134,7 +134,7 @@ jobs:
     - name: Release Build
       run: |
         cargo build --release
-        cp target/release/lan-mouse lan-mouse-macos-intel
+        cp target/release/hopscot hopscot-macos-intel
     - name: Make icns
       run: scripts/makeicns.sh
     - name: Install cargo bundle
@@ -142,16 +142,16 @@ jobs:
     - name: Bundle
       run: |
         cargo bundle --release
-        scripts/copy-macos-dylib.sh "target/release/bundle/osx/Lan Mouse.app/Contents/MacOS/lan-mouse"
+        scripts/copy-macos-dylib.sh "target/release/bundle/osx/Hopscot.app/Contents/MacOS/hopscot"
     - name: Zip bundle
       run: |
         cd target/release/bundle/osx
-        zip -r "lan-mouse-macos-intel.zip" "Lan Mouse.app"
+        zip -r "hopscot-macos-intel.zip" "Hopscot.app"
     - name: Upload build artifact
       uses: actions/upload-artifact@v6
       with:
-        name: lan-mouse-macos-intel
-        path: target/release/bundle/osx/lan-mouse-macos-intel.zip
+        name: hopscot-macos-intel
+        path: target/release/bundle/osx/hopscot-macos-intel.zip
 
   macos-arm64-release-build:
     runs-on: macos-15
@@ -164,7 +164,7 @@ jobs:
     - name: Release Build
       run: |
         cargo build --release
-        cp target/release/lan-mouse lan-mouse-macos-arm64
+        cp target/release/hopscot hopscot-macos-arm64
     - name: Make icns
       run: scripts/makeicns.sh
     - name: Install cargo bundle
@@ -172,16 +172,16 @@ jobs:
     - name: Bundle
       run: |
         cargo bundle --release
-        scripts/copy-macos-dylib.sh "target/release/bundle/osx/Lan Mouse.app/Contents/MacOS/lan-mouse"
+        scripts/copy-macos-dylib.sh "target/release/bundle/osx/Hopscot.app/Contents/MacOS/hopscot"
     - name: Zip bundle
       run: |
         cd target/release/bundle/osx
-        zip -r "lan-mouse-macos-arm64.zip" "Lan Mouse.app"
+        zip -r "hopscot-macos-arm64.zip" "Hopscot.app"
     - name: Upload build artifact
       uses: actions/upload-artifact@v6
       with:
-        name: lan-mouse-macos-arm64
-        path: target/release/bundle/osx/lan-mouse-macos-arm64.zip
+        name: hopscot-macos-arm64
+        path: target/release/bundle/osx/hopscot-macos-arm64.zip
 
   release:
     name: "Release"
@@ -203,15 +203,15 @@ jobs:
         prerelease: true
         generate_release_notes: true
         files: |
-          lan-mouse-linux-x86_64/lan-mouse-linux-x86_64
-          lan-mouse-linux-x86_64/target/release/bundle/deb/lan-mouse_*.deb
-          lan-mouse-linux-x86_64/target/release/bundle/appimage/lan-mouse_*.AppImage
-          lan-mouse-linux-arm64/lan-mouse-linux-arm64
-          lan-mouse-linux-arm64/target/release/bundle/deb/lan-mouse_*.deb
-          lan-mouse-linux-arm64/target/release/bundle/appimage/lan-mouse_*.AppImage
-          lan-mouse-macos-intel/lan-mouse-macos-intel.zip
-          lan-mouse-macos-arm64/lan-mouse-macos-arm64.zip
-          lan-mouse-windows-x86_64/lan-mouse-windows-x86_64.zip
+          hopscot-linux-x86_64/hopscot-linux-x86_64
+          hopscot-linux-x86_64/target/release/bundle/deb/hopscot_*.deb
+          hopscot-linux-x86_64/target/release/bundle/appimage/hopscot_*.AppImage
+          hopscot-linux-arm64/hopscot-linux-arm64
+          hopscot-linux-arm64/target/release/bundle/deb/hopscot_*.deb
+          hopscot-linux-arm64/target/release/bundle/appimage/hopscot_*.AppImage
+          hopscot-macos-intel/hopscot-macos-intel.zip
+          hopscot-macos-arm64/hopscot-macos-arm64.zip
+          hopscot-windows-x86_64/hopscot-windows-x86_64.zip
     - name: Create Tagged Release
       if: startsWith(github.ref, 'refs/tags/')
       uses: softprops/action-gh-release@v2
@@ -220,12 +220,12 @@ jobs:
         name: ${{ github.ref_name }}
         generate_release_notes: true
         files: |
-          lan-mouse-linux-x86_64/lan-mouse-linux-x86_64
-          lan-mouse-linux-x86_64/target/release/bundle/deb/lan-mouse_*.deb
-          lan-mouse-linux-x86_64/target/release/bundle/appimage/lan-mouse_*.AppImage
-          lan-mouse-linux-arm64/lan-mouse-linux-arm64
-          lan-mouse-linux-arm64/target/release/bundle/deb/lan-mouse_*.deb
-          lan-mouse-linux-arm64/target/release/bundle/appimage/lan-mouse_*.AppImage
-          lan-mouse-macos-intel/lan-mouse-macos-intel.zip
-          lan-mouse-macos-arm64/lan-mouse-macos-arm64.zip
-          lan-mouse-windows-x86_64/lan-mouse-windows-x86_64.zip
+          hopscot-linux-x86_64/hopscot-linux-x86_64
+          hopscot-linux-x86_64/target/release/bundle/deb/hopscot_*.deb
+          hopscot-linux-x86_64/target/release/bundle/appimage/hopscot_*.AppImage
+          hopscot-linux-arm64/hopscot-linux-arm64
+          hopscot-linux-arm64/target/release/bundle/deb/hopscot_*.deb
+          hopscot-linux-arm64/target/release/bundle/appimage/hopscot_*.AppImage
+          hopscot-macos-intel/hopscot-macos-intel.zip
+          hopscot-macos-arm64/hopscot-macos-arm64.zip
+          hopscot-windows-x86_64/hopscot-windows-x86_64.zip

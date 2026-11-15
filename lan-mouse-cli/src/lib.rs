@@ -19,7 +19,7 @@ pub enum CliError {
 }
 
 #[derive(Parser, Clone, Debug, PartialEq, Eq)]
-#[command(name = "lan-mouse-cli", about = "LanMouse CLI interface")]
+#[command(name = "hopscot-cli", about = "Hopscot CLI interface")]
 pub struct CliArgs {
     #[command(subcommand)]
     command: CliSubcommand,

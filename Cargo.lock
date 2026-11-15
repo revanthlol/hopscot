@@ -1377,6 +1377,40 @@ dependencies = [
 ]
 
 [[package]]
+name = "hopscot"
+version = "0.11.0"
+dependencies = [
+ "clap",
+ "env_logger",
+ "futures",
+ "input-capture",
+ "input-emulation",
+ "input-event",
+ "lan-mouse-cli",
+ "lan-mouse-gtk",
+ "lan-mouse-ipc",
+ "lan-mouse-proto",
+ "libc",
+ "local-channel",
+ "log",
+ "notify",
+ "rcgen",
+ "rustls",
+ "serde",
+ "serde_json",
+ "sha2",
+ "shadow-rs",
+ "slab",
+ "thiserror 2.0.18",
+ "tokio",
+ "tokio-util",
+ "toml 0.8.23",
+ "toml_edit 0.22.27",
+ "webrtc-dtls",
+ "webrtc-util",
+]
+
+[[package]]
 name = "hostname"
 version = "0.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1739,40 +1773,6 @@ checksum = "ed9625ffda8729b85e45cf04090035ac368927b8cebc34898e7c120f52e4838b"
 dependencies = [
  "bitflags 1.3.2",
  "libc",
-]
-
-[[package]]
-name = "lan-mouse"
-version = "0.11.0"
-dependencies = [
- "clap",
- "env_logger",
- "futures",
- "input-capture",
- "input-emulation",
- "input-event",
- "lan-mouse-cli",
- "lan-mouse-gtk",
- "lan-mouse-ipc",
- "lan-mouse-proto",
- "libc",
- "local-channel",
- "log",
- "notify",
- "rcgen",
- "rustls",
- "serde",
- "serde_json",
- "sha2",
- "shadow-rs",
- "slab",
- "thiserror 2.0.18",
- "tokio",
- "tokio-util",
- "toml 0.8.23",
- "toml_edit 0.22.27",
- "webrtc-dtls",
- "webrtc-util",
 ]
 
 [[package]]
